@@ -1,0 +1,25 @@
+table vdetLo VLo2.tab
+table ndetLo nLo2.tab
+table vdetHi VHi2.tab
+table ndetHi nHi2.tab
+@ total=303
+@ meth=discrete
+@ bound=100000
+vl1'=vl1+vdetLo(t)
+vh1'=vh1+vdetHi(t)
+nl1'=nl1+ndetLo(t)
+nh1'=nh1+ndetHi(t)
+vl2'=vl2+vdetLo(t)^2
+vh2'=vh2+vdetHi(t)^2
+nl2'=nl2+ndetLo(t)^2
+nh2'=nh2+ndetHi(t)^2
+vlb=vl1/303
+vhb=vh1/303
+nlb=nl1/303
+nhb=nh1/303
+aux sigvl=vl2/303-vlb^2
+aux sigvh=vh2/303-vhb^2
+aux signl=nl2/303-nlb^2
+aux signh=nh2/303-nhb^2
+d
+

@@ -1,0 +1,106 @@
+# traub sodium and potassium kinetics 
+# with new parameters listed in Bard's email 4/22/2015
+# set gm as par below. Default pars:
+# gm0=.175,gm1=.3,eps=.0025,f=.5
+# then new range is [0.05,.3]
+
+## Fixed par (for finding initial conditions)
+#par gm=.3
+
+## Quasi-perioidc par
+#gm = gm0+((gm1-gm0)/2)*(cos(eps*f*t)+cos(sqrt(2)*eps*f*t))
+
+# trying gm0=.19
+## periodic par
+gm=gm0+(gm1-gm0)*cos(eps*f*t)
+# range [0.05,0.3]
+#par gm=.5
+
+## noisy par
+#table qn ounormed4_mu1k.tab
+#gm=gm0+(gm1-gm0)*qn(t)
+#aux gm=gm
+#par gm=.1
+# these are the variances of the two variables over a cycle
+# bard's variances
+#par svl=508,svh=357,snl=.025,snh=.018
+
+# my variances
+par svl=548,svh=396,snl=.025,snh=.018
+par sh=.042
+#
+# phase
+table vdetLo VLo2.tab
+table ndetLo nLo2.tab
+table vdetHi VHi2.tab
+table ndetHi nHi2.tab
+#table hdet h2.tab
+
+# here we weight the distances by the variances
+dist1_[0..303]=if(gm<.175)then((v-vdetLo([j]))^2/svl+(n-ndetLo([j]))^2/snl)else((v-vdetHi([j]))^2/svh+(n-ndetHi([j]))^2/snh)
+dist2_[0..303]=if(gm<.175)then((vp-vdetLo([j]))^2/svl+(np-ndetLo([j]))^2/snl)else((vp-vdetHi([j]))^2/svh+(np-ndetHi([j]))^2/snh)
+
+special mn1=findext(-1,304,1,dist1_0)
+special mn2=findext(-1,304,1,dist2_0)
+
+aux psi=mod(mn2(3)/303-mn1(3)/303+.5,1)-.5
+
+#dist1Hi_[0..373]=if(gm>=.175)then((v-vdetHi([j]))^2+(n-ndetHi([j]))^2)else(0)
+#dist2Hi_[0..373]=if(gm>=.175)then((vp-vdetHi([j]))^2+(np-ndetHi([j]))^2)else(0)
+#special mn1Hi=findext(-1,374,1,dist1Hi_0)
+#special mn2Hi=findext(-1,374,1,dist2Hi_0)
+
+#dist1Lo_[0..219]=(v-vdetLo([j]))^2+(n-ndetLo([j]))^2
+#dist2Lo_[0..219]=(vp-vdetLo([j]))^2+(np-ndetLo([j]))^2
+#special mn1Lo=findext(-1,220,1,dist1Lo_0)
+#special mn2Lo=findext(-1,220,1,dist2Lo_0)
+
+#aux psi=if(gm<.175)then(mod(mn2Lo(3)/219-mn1Lo(3)/219+.5,1)-.5)else(mod(mn2Hi(3)/373-mn1Hi(3)/373+.5,1)-.5)
+
+
+itrb(v,m,h,n,w)=gna*h*m*m*m*(v-ena)+(gk*n*n*n*n+gm*w)*(v-ek)+gl*(v-el)
+v'=-itrb(v,m,h,n,w) +i+g*eps*sp*(esyn-v)
+n'=an(v)*(1-n)-bn(v)*n
+m'=am(v)*(1-m)-bm(v)*m
+h'=ah(v)*(1-h)-bh(v)*h
+w'=(winf(v)-w)/tw(v)
+s'=alpha(v)*(1-s)-s/tau
+
+vp'=-itrb(vp,mp,hp,np,wp) +ip+g*eps*s*(esyn-vp)
+np'=an(vp)*(1-np)-bn(vp)*np
+mp'=am(vp)*(1-mp)-bm(vp)*mp
+hp'=ah(vp)*(1-hp)-bh(vp)*hp
+wp'=(winf(vp)-wp)/tw(vp)
+sp'=alpha(vp)*(1-sp)-sp/tau
+
+TW(vs)=tauw/(3.3*EXP((vs-vwt)/20.0)+EXP(-(vs-vwt)/20.0))
+WINF(vs)=1.0/(1.0+EXP(-(vs-vwt)/10.0))
+am(v)=.32*(54+v)/(1-exp(-(v+54)/4))
+bm(v)=.28*(v+27)/(exp((v+27)/5)-1)
+ah(v)=.128*exp(-(v-vhn)/18)
+bh(v)=4/(1+exp(-(v+27)/5))
+an(v)=.032*(v+52)/(1-exp(-(v+52)/5))
+bn(v)=.5*exp(-(57+v)/40)
+
+par gm0=.175,gm1=.3,f=.5
+par g=5,eps=.0025
+par i=3,ip=3,vwt=-35,tauw=100
+par ek=-100,ena=50,el=-67
+par gl=.2,gk=80,gna=100,vhn=-50
+alpha(v)=a0/(1+exp(-(v-vt)/vs))
+par a0=4,tau=4,vt=0,vs=5,esyn=0
+aux g_m=gm
+# start on limit cycle, vp slightly ahead in phase of v
+# init for v on max v, gm=.025
+init v=40.29726,n=.3105082,m=.9226031,h=.6423312,w=.2599664,s=.2586907
+
+# init vp at max n, gm=.025
+init vp=-30.91128,np=.6791594,mp=.9370855,hp=.1474929,wp=.45099,s=.6938641
+
+
+@ bound=10000000
+@ total=15000,dt=.05
+#@ method=Euler
+#@ bounds=1000000
+
+done

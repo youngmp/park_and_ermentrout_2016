@@ -1,0 +1,107 @@
+# traub sodium and potassium kinetics 
+# set gm as par below. Default pars:
+# gm0=.3,gm1=.5,eps=.01,f=.5
+# range [0.1,0.5]
+
+## Fixed par (for finding initial conditions)
+#par gm=.3
+
+## Quasi-perioidc par
+#gm = gm0+((gm1-gm0)/2)*(cos(eps*f*t)+cos(sqrt(2)*eps*f*t))
+
+## periodic par (we're using new parameters for this one under trb2_new_par)
+#gm=gm0+(gm1-gm0)*cos(eps*f*t)
+
+## noisy par
+table qn ounormed4_mu1k.tab
+gm=gm0+(gm1-gm0)*qn(t)
+#aux gm=gm
+
+par svl=485,svh=316,snl=.023,snh=.017
+
+# phase
+table vdet1 V1.tab
+table ndet1 n1.tab
+table vdet3 V3_usewith1.tab
+table ndet3 n3_usewith1.tab
+
+dist1_[0..306]=if(gm>=.3)then((v-vdet3([j]))^2/svh+(n-ndet3([j]))^2/snh)else((v-vdet1([j]))^2/svl+(n-ndet1([j]))^2/snl)
+dist2_[0..306]=if(gm>=.3)then((vp-vdet3([j]))^2/svh+(np-ndet3([j]))^2/snh)else((vp-vdet1([j]))^2/svl+(np-ndet1([j]))^2/snl)
+special mn1=findext(-1,307,1,dist1_0)
+special mn2=findext(-1,307,1,dist2_0)
+aux psi=mod(mn2(3)/306-mn1(3)/306+.5,1)-.5
+
+#table vdet5 V5.tab # gm=.3 does well enough for this par value
+#table ndet5 n5.tab # gm=.3 does well enough for this par value
+#dist13_[0..347]=if(gm>=.3)then((v-vdet3([j]))^2+(n-ndet3([j]))^2)else(0)
+#dist23_[0..347]=if(gm>=.3)then((vp-vdet3([j]))^2+(np-ndet3([j]))^2)else(0)
+#special mn13=findext(-1,348,1,dist13_0)
+#special mn23=findext(-1,348,1,dist23_0)
+
+#dist11_[0..247]=if(gm<.3)then((v-vdet1([j]))^2+(n-ndet1([j]))^2)else(0)
+#dist21_[0..247]=if(gm<.3)then((vp-vdet1([j]))^2+(np-ndet1([j]))^2)else(0)
+#dist11_[0..306]=if(gm<.3)then((v-vdet1([j]))^2+(n-ndet1([j]))^2)else(0)
+#dist21_[0..306]=if(gm<.3)then((vp-vdet1([j]))^2+(np-ndet1([j]))^2)else(0)
+#special mn11=findext(-1,307,1,dist11_0)
+#special mn21=findext(-1,307,1,dist21_0)
+
+#dist15_[0..507]=if(gm>=.3)then((v-vdet5([j]))^2+(n-ndet5([j]))^2)else(0)
+#dist25_[0..507]=if(gm>=.3)then((vp-vdet5([j]))^2+(np-ndet5([j]))^2)else(0)
+#special mn15=findext(-1,508,1,dist15_0)
+#special mn25=findext(-1,508,1,dist25_0)
+#aux psi=if(gm>=.3)then(mod(mn23(3)/347-mn13(3)/347+.5,1)-.5)else(mod(mn21(3)/307-mn11(3)/307+.5,1)-.5)
+#aux psi=if(gm<.3)then(mod(mn21(3)/247-mn11(3)/247+.5,1)-.5)else(mod(mn23(3)/437-mn13(3)/347+.5,1)-.5)
+#aux psi=mod(mn23(3)/347-mn13(3)/347+.5,1)-.5
+
+itrb(v,m,h,n,w)=gna*h*m*m*m*(v-ena)+(gk*n*n*n*n+gm*w)*(v-ek)+gl*(v-el)
+v'=-itrb(v,m,h,n,w) +i+g*eps*sp*(esyn-v)
+n'=an(v)*(1-n)-bn(v)*n
+m'=am(v)*(1-m)-bm(v)*m
+h'=ah(v)*(1-h)-bh(v)*h
+w'=(winf(v)-w)/tw(v)
+s'=alpha(v)*(1-s)-s/tau
+
+vp'=-itrb(vp,mp,hp,np,wp) +ip+g*eps*s*(esyn-vp)
+np'=an(vp)*(1-np)-bn(vp)*np
+mp'=am(vp)*(1-mp)-bm(vp)*mp
+hp'=ah(vp)*(1-hp)-bh(vp)*hp
+wp'=(winf(vp)-wp)/tw(vp)
+sp'=alpha(vp)*(1-sp)-sp/tau
+
+TW(vs)=tauw/(3.3*EXP((vs-vwt)/20.0)+EXP(-(vs-vwt)/20.0))
+WINF(vs)=1.0/(1.0+EXP(-(vs-vwt)/10.0))
+am(v)=.32*(54+v)/(1-exp(-(v+54)/4))
+bm(v)=.28*(v+27)/(exp((v+27)/5)-1)
+ah(v)=.128*exp(-(v-vhn)/18)
+bh(v)=4/(1+exp(-(v+27)/5))
+an(v)=.032*(v+52)/(1-exp(-(v+52)/5))
+bn(v)=.5*exp(-(57+v)/40)
+
+par g=5
+par eps=.0025,f=.5
+par i=3,ip=3,gm0=.3,gm1=.5,vwt=-35,tauw=100
+par ek=-100,ena=50,el=-67
+par gl=.2,gk=80,gna=100,vhn=-50
+alpha(v)=a0/(1+exp(-(v-vt)/vs))
+par a0=4,tau=4,vt=0,vs=5,esyn=0
+
+# start on limit cycle, vp slightly ahead in phase of v
+# init for v on max v
+init v=40.16033,n=.3184712,m=.9165893,h=.6448345,w=.161598
+
+# init vp at min n, gm=.5
+#init vp=-75.65134,np=.008326924,mp=.002186376,hp=.9940252,wp=.1943296
+
+# init vp at max n, gm=.5
+init vp=-37.14204,np=.6795656,mp=.8788688,hp=.1476746,wp=.372328
+
+# init vp at min v, gm=.5
+#init vp=-96.2887,np=.4155651,mp=.0005196878,hp=.4946305,wp=.3519008
+
+
+@ maxstor=10000000
+@ total=15000,dt=.05
+#@ method=Euler
+#@ bounds=1000000
+
+done

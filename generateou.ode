@@ -1,0 +1,13 @@
+# The mu in this equation is not the mean, but \tau as in Bard's book
+wiener nz
+z'=(-z/mu)+sqrt(1/mu)*nz
+
+#aux znormed=z/2.7
+
+par mu=1000
+
+@ dt=.01
+@ total=15000
+@ seed=4
+
+#table test ounoise_tot10000_mu10_dt0.01.dat

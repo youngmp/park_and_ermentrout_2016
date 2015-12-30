@@ -1,0 +1,5 @@
+phi'= -sin(phi)-b(t)*sin(2*phi)
+b(t)=a+c*(1+cos(t))
+init phi=.1
+par a=.6,c=.4
+done

@@ -1,0 +1,53 @@
+# traub sodium and potassium kinetics 
+# with new parameters listed in Bard's email 4/22/2015
+# Default pars:
+# gm0=.175,gm1=.3,eps=.0025,f=1
+#gm=gm0+(gm1-gm0)*cos(eps*f*t)
+# so the range is [0.05,0.3]
+
+
+itrb(v,m,h,n,w)=gna*h*m*m*m*(v-ena)+(gk*n*n*n*n+gm*w)*(v-ek)+gl*(v-el)
+#v'=-itrb(v,m,h,n,w) +i+g*eps*sp*(esyn-v)
+v'=-itrb(v,m,h,n,w) +i
+n'=an(v)*(1-n)-bn(v)*n
+m'=am(v)*(1-m)-bm(v)*m
+h'=ah(v)*(1-h)-bh(v)*h
+w'=(winf(v)-w)/tw(v)
+s'=alpha(v)*(1-s)-s/tau
+
+#vp'=-itrb(vp,mp,hp,np,wp) +ip+g*eps*s*(esyn-vp)
+#np'=an(vp)*(1-np)-bn(vp)*np
+#mp'=am(vp)*(1-mp)-bm(vp)*mp
+#hp'=ah(vp)*(1-hp)-bh(vp)*hp
+#wp'=(winf(vp)-wp)/tw(vp)
+#sp'=alpha(vp)*(1-sp)-sp/tau
+
+TW(vs)=tauw/(3.3*EXP((vs-vwt)/20.0)+EXP(-(vs-vwt)/20.0))
+WINF(vs)=1.0/(1.0+EXP(-(vs-vwt)/10.0))
+am(v)=.32*(54+v)/(1-exp(-(v+54)/4))
+bm(v)=.28*(v+27)/(exp((v+27)/5)-1)
+ah(v)=.128*exp(-(v-vhn)/18)
+bh(v)=4/(1+exp(-(v+27)/5))
+an(v)=.032*(v+52)/(1-exp(-(v+52)/5))
+bn(v)=.5*exp(-(57+v)/40)
+
+par gm=.025
+par g=5,i=3
+par eps=.01,f=.5
+#init w=.2,wp=.3
+par ip=3,vwt=-35,tauw=100
+par ek=-100,ena=50,el=-67
+par gl=.2,gk=80,gna=100,vhn=-50
+alpha(v)=a0/(1+exp(-(v-vt)/vs))
+par a0=4,tau=4,vt=0,vs=5,esyn=0
+
+@ maxstor=10000000
+@ bounds=10000000
+@ total=5000,dt=.01
+@ dt=0.05
+done
+
+
+
+
+
