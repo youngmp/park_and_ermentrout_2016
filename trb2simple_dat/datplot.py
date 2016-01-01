@@ -49,9 +49,9 @@ def main():
     for gm in parvals:
         hfun = np.loadtxt("fourier/hfun.gm_"+str(gm)+".dat")
         #hfun = np.loadtxt("fourier_i/hfun.i_"+str(gm)+".dat")
-        #orbit = np.loadtxt("fourier/orbit.gm_"+str(i)+".dat")
+        orbit = np.loadtxt("fourier/orbit.gm_"+str(gm)+".dat")
         #adjoint = np.loadtxt("fourier/adjoint.gm_"+str(i)+".dat")
-        
+        print 'period at gm=',gm, ':', orbit[-1,0]
         """
         #begin Fourier approximation
         """

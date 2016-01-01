@@ -34,7 +34,7 @@ import copy
 
 from fourier_approx import *
 from scipy.integrate import odeint, ode
-from euler_1D import *
+from euler import *
 
 # define coefficients b_i (for sine)
 b0_1=0;b0_3=0

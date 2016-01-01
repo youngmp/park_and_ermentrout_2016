@@ -9,13 +9,12 @@
 ## Quasi-perioidc par
 #gm = gm0+((gm1-gm0)/2)*(cos(eps*f*t)+cos(sqrt(2)*eps*f*t))
 
-## periodic par (we're using new parameters for this one under trb2_new_par)
+## periodic par (we also use new parameters for the periodic case in trb2_new_params/trb2simple_newpar.ode)
 #gm=gm0+(gm1-gm0)*cos(eps*f*t)
 
 ## noisy par
 table qn ounormed4_mu1k.tab
 gm=gm0+(gm1-gm0)*qn(t)
-#aux gm=gm
 
 par svl=485,svh=316,snl=.023,snh=.017
 
@@ -30,6 +29,7 @@ dist2_[0..306]=if(gm>=.3)then((vp-vdet3([j]))^2/svh+(np-ndet3([j]))^2/snh)else((
 special mn1=findext(-1,307,1,dist1_0)
 special mn2=findext(-1,307,1,dist2_0)
 aux psi=mod(mn2(3)/306-mn1(3)/306+.5,1)-.5
+aux theta1=mod(mn1(3)/306,1)
 
 #table vdet5 V5.tab # gm=.3 does well enough for this par value
 #table ndet5 n5.tab # gm=.3 does well enough for this par value

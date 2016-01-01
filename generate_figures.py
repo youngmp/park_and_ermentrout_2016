@@ -92,20 +92,20 @@ def trb2_p_fig(gm0=default_gm0,gm1=default_gm1,eps=default_eps,f=default_f,party
     fig.set_size_inches(10,5)
 
     ## plot data+theory
-    ax1.scatter(dat[:,0],full_model*2*np.pi,s=.5,facecolor="gray")
-    ax1.plot(np.linspace(0,dat[:,0][-1],N),slow_phs_model*2*np.pi,lw=5,color="#3399ff")
+    ax1.scatter(dat[:,0]/1000.,full_model*2*np.pi,s=.5,facecolor="gray")
+    ax1.plot(np.linspace(0,dat[:,0][-1]/1000.,N),slow_phs_model*2*np.pi,lw=5,color="#3399ff")
     ax1.set_ylabel(r'$\bm{|\phi(t)|}$',fontsize=20)
-    ax1.set_xlabel(r'$\bm{t}$',fontsize=20)
+    ax1.set_xlabel(r'$\bm{t (s)}$',fontsize=20)
 
     # set tick intervals
-    myLocatorx = mticker.MultipleLocator(2000)
+    myLocatorx = mticker.MultipleLocator(2000/1000.)
     myLocatory = mticker.MultipleLocator(.5)
     ax1.xaxis.set_major_locator(myLocatorx)
     ax1.yaxis.set_major_locator(myLocatory)
 
     # make plot fit window
     ax1.set_ylim(np.amin([full_model])*2*np.pi,np.amax([full_model])*2*np.pi)
-    ax1.set_xlim(dat[:,0][0],dat[:,0][-1])
+    ax1.set_xlim(dat[:,0][0]/1000.,dat[:,0][-1]/1000.)
 
     ## plot P param
     ax2 = ax1.twinx()
@@ -119,12 +119,12 @@ def trb2_p_fig(gm0=default_gm0,gm1=default_gm1,eps=default_eps,f=default_f,party
     ax2.yaxis.set_major_locator(myLocatory2)
     
     # make param plot fit window
-    ax2.set_xlim(dat[:,0][0],dat[:,0][-1])
+    ax2.set_xlim(dat[:,0][0]/1000.,dat[:,0][-1]/1000.)
     ax2.set_ylim(np.amin(gm),np.amax(gm))
     
     # plot param + stability line 
-    ax2.plot(t,gm,lw=4,color="red",linestyle='--',dashes=(10,2))
-    ax2.plot([dat[:,0][0],dat[:,0][-1]],[0.3,0.3],lw=2,color='red')
+    ax2.plot(t/1000.,gm,lw=4,color="red",linestyle='--',dashes=(10,2))
+    ax2.plot([dat[:,0][0]/1000.,dat[:,0][-1]/1000.],[0.3,0.3],lw=2,color='red')
 
     # set ticks to red
     for tl in ax2.get_yticklabels():
@@ -170,28 +170,28 @@ def trb2newpar_p_fig(gm0=default_gm0,gm1=default_gm1,eps=default_eps,f=default_f
     #axes = fig.add_axes([0.1, 0.1, 0.8, 0.8])
 
     ## plot data+theory
-    ax1.scatter(dat[:,0],full_model*2*np.pi,s=.5,facecolor="gray")
-    ax1.plot(np.linspace(0,dat[:,0][-1],N),slow_phs_model*2*np.pi,lw=5,color="#3399ff")
-    myLocatorx = mticker.MultipleLocator(2000)
+    ax1.scatter(dat[:,0]/1000.,full_model*2*np.pi,s=.5,facecolor="gray")
+    ax1.plot(np.linspace(0,dat[:,0][-1]/1000.,N),slow_phs_model*2*np.pi,lw=5,color="#3399ff")
+    myLocatorx = mticker.MultipleLocator(2000/1000.)
     myLocatory = mticker.MultipleLocator(.5)
     ax1.xaxis.set_major_locator(myLocatorx)
     ax1.yaxis.set_major_locator(myLocatory)
 
 
     ax1.set_ylabel(r'$\bm{|\phi(t)|}$',fontsize=20)
-    ax1.set_xlabel(r'$\bm{t}$',fontsize=20)
+    ax1.set_xlabel(r'$\bm{t (s)}$',fontsize=20)
 
     # make plot fit window
     ax1.set_ylim(np.amin([full_model])*2*np.pi,np.amax(full_model)*2*np.pi)
-    ax1.set_xlim(dat[:,0][0],dat[:,0][-1])
+    ax1.set_xlim(dat[:,0][0]/1000.,dat[:,0][-1]/1000.)
 
     ## plot P param
     ax2 = ax1.twinx()
     gm = gm0+(gm1-gm0)*np.cos(eps*f*t)
     
-    ax2.set_xlim(dat[:,0][0],dat[:,0][-1])
+    ax2.set_xlim(dat[:,0][0]/1000.,dat[:,0][-1]/1000.)
     ax2.set_ylabel(r'$\bm{q(t)}$',fontsize=20,color='red')
-    ax2.plot(t,gm,lw=4,color="red",linestyle='--',dashes=(10,2))
+    ax2.plot(t/1000.,gm,lw=4,color="red",linestyle='--',dashes=(10,2))
 
     myLocatory2 = mticker.MultipleLocator(.05)
     ax2.yaxis.set_major_locator(myLocatory2)
@@ -239,31 +239,31 @@ def trb2_qp_fig(gm0=default_gm0,gm1=default_gm1,eps=default_eps,f=default_f,part
     fig.set_size_inches(10,5)
 
     # plot data+theory
-    ax1.scatter(dat[:,0],full_model*2*np.pi,s=.5,facecolor="gray")
-    ax1.plot(np.linspace(0,dat[:,0][-1],N),slow_phs_model*2*np.pi,lw=5,color="#3399ff")
+    ax1.scatter(dat[:,0]/1000.,full_model*2*np.pi,s=.5,facecolor="gray")
+    ax1.plot(np.linspace(0,dat[:,0][-1]/1000.,N),slow_phs_model*2*np.pi,lw=5,color="#3399ff")
     ax1.set_ylabel(r'$\bm{|\phi(t)|}$',fontsize=20)
-    ax1.set_xlabel(r'$\bm{t}$',fontsize=20)
+    ax1.set_xlabel(r'$\bm{t (s)}$',fontsize=20)
 
-    myLocatorx = mticker.MultipleLocator(5000)
+    #myLocatorx = mticker.MultipleLocator(5000/1000.)
     myLocatory = mticker.MultipleLocator(.5)
-    ax1.xaxis.set_major_locator(myLocatorx)
+    #ax1.xaxis.set_major_locator(myLocatorx)
     ax1.yaxis.set_major_locator(myLocatory)
 
     # make plot fit window
     ax1.set_ylim(np.amin([full_model])*2*np.pi,np.amax(full_model)*2*np.pi)
-    ax1.set_xlim(dat[:,0][0],dat[:,0][-1])
+    ax1.set_xlim(dat[:,0][0]/1000.,dat[:,0][-1]/1000.)
 
     ## plot QP param
     ax2 = ax1.twinx()
     gm = gm0+((gm1-gm0)/2)*(np.cos(eps*f*t)+np.cos(np.sqrt(2)*eps*f*t))
     
-    ax2.plot(t,gm,lw=4,color="red",linestyle='--',dashes=(10,2))
-    ax2.plot([dat[:,0][0],dat[:,0][-1]],[0.3,0.3],lw=2,color='red')
+    ax2.plot(t/1000.,gm,lw=4,color="red",linestyle='--',dashes=(10,2))
+    ax2.plot([dat[:,0][0]/1000.,dat[:,0][-1]/1000.],[0.3,0.3],lw=2,color='red')
 
     myLocatory2 = mticker.MultipleLocator(.1)
     ax2.yaxis.set_major_locator(myLocatory2)
 
-    ax2.set_xlim(dat[:,0][0],dat[:,0][-1])
+    ax2.set_xlim(dat[:,0][0]/1000.,dat[:,0][-1]/1000.)
     ax2.set_ylabel(r'$\bm{q(t)}$',fontsize=20,color='red')
     for tl in ax2.get_yticklabels():
         tl.set_color('r')
@@ -315,13 +315,13 @@ def trb2_s_fig(filenum=4,gm0=default_gm0,gm1=default_gm1,eps=default_eps,f=defau
     ax1 = plt.subplot(gs[:1,:])
 
     # plot data+theory
-    ax1.scatter(dat[:,0],full_model*2*np.pi,s=.5,facecolor="gray")
-    ax1.plot(np.linspace(0,dat[:,0][-1],N),slow_phs_model*2*np.pi,lw=4,color="#3399ff")
+    ax1.scatter(dat[:,0]/1000.,full_model*2*np.pi,s=.5,facecolor="gray")
+    ax1.plot(np.linspace(0,dat[:,0][-1]/1000.,N),slow_phs_model*2*np.pi,lw=4,color="#3399ff")
     ax1.set_ylabel(r'$\bm{|\phi(t)|}$',fontsize=20)
     
     # make plot fit window
     ax1.set_ylim(np.amin(full_model)*2*np.pi,np.amax(full_model)*2*np.pi)#np.amax(full_model))
-    ax1.set_xlim(dat[:,0][0],dat[:,0][-1])
+    ax1.set_xlim(dat[:,0][0]/1000.,dat[:,0][-1]/1000.)
     
     myLocatory = mticker.MultipleLocator(.5)
     ax1.yaxis.set_major_locator(myLocatory)
@@ -331,19 +331,19 @@ def trb2_s_fig(filenum=4,gm0=default_gm0,gm1=default_gm1,eps=default_eps,f=defau
 
     s_N = len(noisefile[3:])
 
-    ax2.plot(np.linspace(0,dat[:,0][-1],s_N),(gm0+(gm1-gm0)*noisefile[3:]),lw=1,color="red")
-    ax2.plot([dat[:,0][0],dat[:,0][-1]],[0.3,0.3],lw=3,color='red',linestyle='--',dashes=(10,2))
+    ax2.plot(np.linspace(0,dat[:,0][-1]/1000.,s_N),(gm0+(gm1-gm0)*noisefile[3:]),lw=1,color="red")
+    ax2.plot([dat[:,0][0]/1000.,dat[:,0][-1]/1000.],[0.3,0.3],lw=3,color='red',linestyle='--',dashes=(10,2))
 
-    myLocatorx = mticker.MultipleLocator(2000)
+    myLocatorx = mticker.MultipleLocator(2000/1000.)
     ax2.xaxis.set_major_locator(myLocatorx)
 
-    ax2.set_xlim(dat[:,0][0],dat[:,0][-1])
+    ax2.set_xlim(dat[:,0][0]/1000.,dat[:,0][-1]/1000.)
     ax2.set_ylabel(r'$\bm{q(t)}$',fontsize=20,color='red')
 
     myLocatory2 = mticker.MultipleLocator(.1)
     ax2.yaxis.set_major_locator(myLocatory2)
 
-    ax2.set_xlabel(r'$\bm{t}$',fontsize=20)
+    ax2.set_xlabel(r'$\bm{t (s)}$',fontsize=20)
     for tl in ax2.get_yticklabels():
         tl.set_color('r')    
 
@@ -405,8 +405,7 @@ def lamom2_p_fig(q0,q1,eps=default_eps_lamom,
 
     ## plot data+theory
 
-    
-        
+
     ax1.plot(t,phi_exp,lw=5,color='black')
     ax1.plot(t,phi_theory,lw=5,color="#3399ff",ls='dashdot',dashes=(10,5))
     if q0 == 0.9:
@@ -818,6 +817,11 @@ def trb2_prc_hodd():
     ax1.set_ylabel(r'$\bm{Z}$',fontsize=20)
     ax1.set_xlabel(r'$\bm{\phi}$',fontsize=20)
 
+    
+    ax1.set_xticks(np.arange(0,1+.25,.25)*2*np.pi)
+    x_label = [r"$0$", r"$\frac{\pi}{2}$", r"$\pi$", r"$\frac{3\pi}{2}$",   r"$2\pi$"]
+    ax1.set_xticklabels(x_label, fontsize=20)
+
 
     ax2 = plt.subplot(gs[1,:])
 
@@ -878,7 +882,9 @@ def trb2_prc_hodd():
     # axis labels
     ax2.set_ylabel(r'$\bm{H_{odd}(\phi)}$',fontsize=20)
     ax2.set_xlabel(r'$\bm{\phi}$',fontsize=20)
-    
+
+    ax2.set_xticks(np.arange(0,1+.25,.25)*2*np.pi)
+    ax2.set_xticklabels(x_label, fontsize=20)
     
 
     #axes.set_xticks([])
@@ -888,14 +894,20 @@ def trb2_prc_hodd():
     #ax1.set_yticks([])
     #ax1.set_frame_on(False)    
     ax1.tick_params(labelsize=20,
+                    axis='x',pad=10)
+    ax1.tick_params(labelsize=20,
                     top='off',
-                    right='off')
+                    right='off',
+                    axis='both')
 
     #ax2.set_xticks([])
     #ax2.set_yticks([])
     ax2.tick_params(labelsize=20,
+                    axis='x',pad=10)
+    ax2.tick_params(labelsize=20,
                     top='off',
-                    right='off')
+                    right='off',
+                    axis='both')
     #ax2.set_frame_on(False)    
 
 
@@ -1176,7 +1188,7 @@ def main():
     figures = [
         #(trb2newpar_p_fig, [.175,.3,default_eps,default_f,'p'], ['trb2newpar_p.png']),
         #(trb2_p_fig, [], ['trb2_p_fig.png']),
-        #(trb2_qp_fig, [], ['trb2_qp_fig.png']),
+        (trb2_qp_fig, [], ['trb2_qp_fig.png']),
         (trb2_s_fig, [], ['trb2_s4_fig.png']),
         #(lamom2_p_fig, [0.9,1.], ['lamom2_p_fig1.pdf']),
         #(lamom2_p_fig, [1.1,1.], ['lamom2_p_fig2.pdf']),
