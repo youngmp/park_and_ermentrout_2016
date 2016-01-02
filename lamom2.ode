@@ -1,0 +1,23 @@
+# original by Bard, modified by Youngmin to add sync/antisync parameter values
+
+lam=a-x^2-y^2
+om=1+q*(x^2+y^2)
+lamh=a-xh^2-yh^2
+omh=1+q*(xh^2+yh^2)
+x'=x*lam-y*om + eps*(al*(xh-x)-be*(yh-y))
+y'=y*lam+x*om + eps*(al*(yh-y)+be*(xh-x))
+xh'=xh*lamh-yh*omh + eps*(al*(x-xh)-be*(y-yh))
+yh'=yh*lamh+xh*omh + eps*(al*(y-yh)+be*(x-xh))
+par a=1,q=1,eps=.01
+
+init x=1,y=0
+init xh=0,yh=1
+
+# vary alpha s.t. (al-q*be) changes sign
+
+par al=1,be=1
+#@ total=400,trans=300
+#@ total=340,trans=300
+#@ total=6.283185307
+@ total=3.141592653
+done
