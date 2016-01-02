@@ -1,0 +1,20 @@
+tau=eps*t
+
+q=q0+q1*cos(q2*tau)
+r[1..2]=x[j]^2+y[j]^2
+lam[1..2]=1-r[j]
+om1=1+q*(1-r1)
+om2=1+eps*d+q*(1-r2)
+x1'=x1*lam1-om1*y1 + eps*(x2-x1-beta*(y1-y2))
+x2'=x2*lam2-om2*y2 + eps*(x1-x2-beta*(y2-y1))
+y1'=y1*lam1+om1*x1 + eps*(y2-y1+beta*(x1-x2))
+y2'=y2*lam2+om2*x2 + eps*(y1-y2+beta*(x2-x1))
+th1=atan2(y1,x1)
+th2=atan2(y2,x2)
+aux phi=mod(th2-th1,2*pi)
+par q0=1.05,eps=.02
+par q2=1.25,q1=2
+par d=.05,beta=1
+init x1=1,x2=.8
+@ total=2000
+d
