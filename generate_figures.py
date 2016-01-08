@@ -1162,8 +1162,38 @@ def trb50_specgram_op():
 
     return fig
 
-    
-    
+
+
+def fd_diagram():
+    """
+    f-d parameter space.
+    """
+
+    fd_wn0 = np.loadtxt('fd_wn0.dat')
+    fd_wn1 = np.loadtxt('fd_wn1.dat')
+
+    fig = plt.figure()
+    fig.set_size_inches(10,12.5)
+    # plot Vtot
+    ax1 = fig.add_subplot(111)
+    #ax1.set_title(r'\textbf{(a)}',x=-.1,y=1.08)
+    ax1.set_ylabel(r'$\textbf{ylabel}$',fontsize=20)
+    ax1.set_ylabel(r'$\textbf{xlabel}$',fontsize=20)
+    #ax1.set_xticks([])
+    ax1.plot(fd_wn0)
+    #xtick_locs = range(5000, 20000, 2000) 
+    #ytick_locs = np.arange(-85,-40,5)
+    #plt.xticks(xtick_locs, [r"$\mathbf{%s}$" % x for x in xtick_locs])
+    #plt.yticks(ytick_locs, [r"$\mathbf{%s}$" % x for x in ytick_locs])
+
+    sublabelsize=25 # subfigure label (a),(b),(c) font size
+    #from matplotlib.font_manager import FontProperties
+    #ax1.text(-1.7,-40,r'$\textbf{(a)}$',fontsize=sublabelsize)
+
+    #ax1.tick_params(labelsize=20,top='off',labelbottom='off')
+
+    return fig
+
 
 def generate_figure(function, args, filenames, title="", title_pos=(0.5,0.95)):
     # workaround for python bug where forked processes use the same random 
@@ -1188,8 +1218,8 @@ def main():
     figures = [
         #(trb2newpar_p_fig, [.175,.3,default_eps,default_f,'p'], ['trb2newpar_p.png']),
         #(trb2_p_fig, [], ['trb2_p_fig.png']),
-        (trb2_qp_fig, [], ['trb2_qp_fig.png']),
-        (trb2_s_fig, [], ['trb2_s4_fig.png']),
+        #(trb2_qp_fig, [], ['trb2_qp_fig.png']),
+        #(trb2_s_fig, [], ['trb2_s4_fig.png']),
         #(lamom2_p_fig, [0.9,1.], ['lamom2_p_fig1.pdf']),
         #(lamom2_p_fig, [1.1,1.], ['lamom2_p_fig2.pdf']),
         #(lamom2_qp_fig, [0.9,1.], ['lamom2_qp_fig1.pdf']),
@@ -1201,6 +1231,7 @@ def main():
         #(trb50_specgram,[],['trb50_specgram.pdf']),
         #(trb50_op,[],['trb50_op.pdf']),
         #(trb50_specgram_op,[],['network3_ymp.pdf']),
+        (fd_diagram,[],['fd_diagram.pdf']),
         ]
     for fig in figures:
         generate_figure(*fig)
