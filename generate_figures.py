@@ -1173,14 +1173,17 @@ def fd_diagram():
     fd_wn1 = np.loadtxt('fd_wn1.dat')
 
     fig = plt.figure()
-    fig.set_size_inches(10,12.5)
+    fig.set_size_inches(10,7.5)
     # plot Vtot
     ax1 = fig.add_subplot(111)
     #ax1.set_title(r'\textbf{(a)}',x=-.1,y=1.08)
+
+    ax1.set_xlabel(r'$\textbf{xlabel}$',fontsize=20)
     ax1.set_ylabel(r'$\textbf{ylabel}$',fontsize=20)
-    ax1.set_ylabel(r'$\textbf{xlabel}$',fontsize=20)
+    
     #ax1.set_xticks([])
-    ax1.plot(fd_wn0)
+    ax1.scatter(fd_wn0[:,0],fd_wn0[:,1])
+    ax1.scatter(fd_wn1[:,0],fd_wn1[:,1])
     #xtick_locs = range(5000, 20000, 2000) 
     #ytick_locs = np.arange(-85,-40,5)
     #plt.xticks(xtick_locs, [r"$\mathbf{%s}$" % x for x in xtick_locs])
