@@ -1178,12 +1178,15 @@ def fd_diagram():
     ax1 = fig.add_subplot(111)
     #ax1.set_title(r'\textbf{(a)}',x=-.1,y=1.08)
 
-    ax1.set_xlabel(r'$\textbf{xlabel}$',fontsize=20)
-    ax1.set_ylabel(r'$\textbf{ylabel}$',fontsize=20)
+    ax1.set_xlabel(r'$\textbf{d}$',fontsize=20)
+    ax1.set_ylabel(r'$\textbf{f}$',fontsize=20)
     
     #ax1.set_xticks([])
-    ax1.scatter(fd_wn0[:,0],fd_wn0[:,1])
-    ax1.scatter(fd_wn1[:,0],fd_wn1[:,1])
+    ax1.scatter(fd_wn0[:,0],fd_wn0[:,1],marker='+',color='red')
+    ax1.scatter(fd_wn1[:,0],fd_wn1[:,1],marker='x',color='green')
+
+    ax1.set_xlim(0,.15)
+    ax1.set_ylim(0,2)
     #xtick_locs = range(5000, 20000, 2000) 
     #ytick_locs = np.arange(-85,-40,5)
     #plt.xticks(xtick_locs, [r"$\mathbf{%s}$" % x for x in xtick_locs])
@@ -1219,22 +1222,22 @@ def generate_figure(function, args, filenames, title="", title_pos=(0.5,0.95)):
 def main():
     
     figures = [
-        #(trb2newpar_p_fig, [.175,.3,default_eps,default_f,'p'], ['trb2newpar_p.png']),
-        #(trb2_p_fig, [], ['trb2_p_fig.png']),
-        #(trb2_qp_fig, [], ['trb2_qp_fig.png']),
-        #(trb2_s_fig, [], ['trb2_s4_fig.png']),
-        #(lamom2_p_fig, [0.9,1.], ['lamom2_p_fig1.pdf']),
-        #(lamom2_p_fig, [1.1,1.], ['lamom2_p_fig2.pdf']),
-        #(lamom2_qp_fig, [0.9,1.], ['lamom2_qp_fig1.pdf']),
-        #(lamom2_qp_fig, [1.1,1.], ['lamom2_qp_fig2.pdf']),
-        #(lamom2_s_fig, [0.9,1.,1], ['lamom2_s1_fig1.pdf']),
-        #(lamom2_s_fig, [0.85,1.,2], ['lamom2_s2_fig1.pdf']),
-        #(lo_inhom,[],['lo-inhom.pdf']),
-        #(trb2_prc_hodd,[],['trb2_prc_hodd.pdf']),
-        #(trb50_specgram,[],['trb50_specgram.pdf']),
-        #(trb50_op,[],['trb50_op.pdf']),
-        #(trb50_specgram_op,[],['network3_ymp.pdf']),
-        (fd_diagram,[],['fd_diagram.pdf']),
+        (trb2newpar_p_fig, [.175,.3,default_eps,default_f,'p'], ['trb2newpar_p.png']),
+        (trb2_p_fig, [], ['trb2_p_fig.png']),
+        (trb2_qp_fig, [], ['trb2_qp_fig.png']),
+        (trb2_s_fig, [], ['trb2_s4_fig.png']),
+        (lamom2_p_fig, [0.9,1.], ['lamom2_p_fig1.pdf']),
+        (lamom2_p_fig, [1.1,1.], ['lamom2_p_fig2.pdf']),
+        (lamom2_qp_fig, [0.9,1.], ['lamom2_qp_fig1.pdf']),
+        (lamom2_qp_fig, [1.1,1.], ['lamom2_qp_fig2.pdf']),
+        (lamom2_s_fig, [0.9,1.,1], ['lamom2_s1_fig1.pdf']),
+        (lamom2_s_fig, [0.85,1.,2], ['lamom2_s2_fig1.pdf']),
+        (lo_inhom,[],['lo-inhom.pdf']),
+        (trb2_prc_hodd,[],['trb2_prc_hodd.pdf']),
+        (trb50_specgram,[],['trb50_specgram.pdf']),
+        (trb50_op,[],['trb50_op.pdf']),
+        (trb50_specgram_op,[],['network3_ymp.pdf']),
+        #(fd_diagram,[],['fd_diagram.pdf','fd_diagram.eps']),
         ]
     for fig in figures:
         generate_figure(*fig)
