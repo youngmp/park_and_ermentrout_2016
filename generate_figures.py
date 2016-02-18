@@ -99,11 +99,17 @@ def trb2_p_fig(gm0=default_gm0,gm1=default_gm1,eps=default_eps,f=default_f,party
 
     # set tick intervals
     myLocatorx = mticker.MultipleLocator(2000/1000.)
-    myLocatory = mticker.MultipleLocator(.5)
+    #myLocatory = mticker.MultipleLocator(.5)
     ax1.xaxis.set_major_locator(myLocatorx)
-    ax1.yaxis.set_major_locator(myLocatory)
+    #ax1.yaxis.set_major_locator(myLocatory)
 
     # make plot fit window
+
+    ax1.set_yticks(np.arange(0,0.5,.125)*2*np.pi)
+    x_label = [r"$0$", r"$\pi/4$", r"$\pi/2$", r"$3\pi/4$"]
+    #x_label = [r"$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$", r"$\frac{3\pi}{4}$",   r"$\pi$"]
+    ax1.set_yticklabels(x_label, fontsize=lamomfsize)
+
     ax1.set_ylim(np.amin([full_model])*2*np.pi,np.amax([full_model])*2*np.pi)
     ax1.set_xlim(dat[:,0][0]/1000.,dat[:,0][-1]/1000.)
 
@@ -173,10 +179,14 @@ def trb2newpar_p_fig(gm0=default_gm0,gm1=default_gm1,eps=default_eps,f=default_f
     ax1.scatter(dat[:,0]/1000.,full_model*2*np.pi,s=.5,facecolor="gray")
     ax1.plot(np.linspace(0,dat[:,0][-1]/1000.,N),slow_phs_model*2*np.pi,lw=5,color="#3399ff")
     myLocatorx = mticker.MultipleLocator(2000/1000.)
-    myLocatory = mticker.MultipleLocator(.5)
+    #myLocatory = mticker.MultipleLocator(.5)
     ax1.xaxis.set_major_locator(myLocatorx)
-    ax1.yaxis.set_major_locator(myLocatory)
+    #ax1.yaxis.set_major_locator(myLocatory)
 
+    ax1.set_yticks(np.arange(0,0.5+.125,.125)*2*np.pi)
+    x_label = [r"$0$", r"$\pi/4$", r"$\pi/2$", r"$3\pi/4$", r"$\pi"]
+    #x_label = [r"$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$", r"$\frac{3\pi}{4}$",   r"$\pi$"]
+    ax1.set_yticklabels(x_label, fontsize=lamomfsize)
 
     ax1.set_ylabel(r'$\bm{|\phi(t)|}$',fontsize=20)
     ax1.set_xlabel(r'$\bm{t (s)}$',fontsize=20)
@@ -249,6 +259,11 @@ def trb2_qp_fig(gm0=default_gm0,gm1=default_gm1,eps=default_eps,f=default_f,part
     #ax1.xaxis.set_major_locator(myLocatorx)
     ax1.yaxis.set_major_locator(myLocatory)
 
+    ax1.set_yticks(np.arange(0,0.5+.125,.125)*2*np.pi)
+    x_label = [r"$0$", r"$\pi/4$", r"$\pi/2$", r"$3\pi/4$", r"$\pi"]
+    #x_label = [r"$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$", r"$\frac{3\pi}{4}$",   r"$\pi$"]
+    ax1.set_yticklabels(x_label, fontsize=lamomfsize)
+
     # make plot fit window
     ax1.set_ylim(np.amin([full_model])*2*np.pi,np.amax(full_model)*2*np.pi)
     ax1.set_xlim(dat[:,0][0]/1000.,dat[:,0][-1]/1000.)
@@ -318,13 +333,19 @@ def trb2_s_fig(filenum=4,gm0=default_gm0,gm1=default_gm1,eps=default_eps,f=defau
     ax1.scatter(dat[:,0]/1000.,full_model*2*np.pi,s=.5,facecolor="gray")
     ax1.plot(np.linspace(0,dat[:,0][-1]/1000.,N),slow_phs_model*2*np.pi,lw=4,color="#3399ff")
     ax1.set_ylabel(r'$\bm{|\phi(t)|}$',fontsize=20)
+
+
+    ax1.set_yticks(np.arange(0,0.5+.125,.125)*2*np.pi)
+    x_label = [r"$0$", r"$\pi/4$", r"$\pi/2$", r"$3\pi/4$",   r"$\pi$"]
+    #x_label = [r"$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$", r"$\frac{3\pi}{4}$",   r"$\pi$"]
+    ax1.set_yticklabels(x_label, fontsize=lamomfsize)
     
     # make plot fit window
     ax1.set_ylim(np.amin(full_model)*2*np.pi,np.amax(full_model)*2*np.pi)#np.amax(full_model))
     ax1.set_xlim(dat[:,0][0]/1000.,dat[:,0][-1]/1000.)
     
-    myLocatory = mticker.MultipleLocator(.5)
-    ax1.yaxis.set_major_locator(myLocatory)
+    #myLocatory = mticker.MultipleLocator(.5)
+    #ax1.yaxis.set_major_locator(myLocatory)
 
     ## plot s param
     ax2 = plt.subplot(gs[1,:])
@@ -405,11 +426,18 @@ def lamom2_p_fig(q0,q1,eps=default_eps_lamom,
 
     ## plot data+theory
 
-
     ax1.plot(t,phi_exp,lw=5,color='black')
     ax1.plot(t,phi_theory,lw=5,color="#3399ff",ls='dashdot',dashes=(10,5))
     if q0 == 0.9:
         ax1.set_ylabel(r'$\bm{\phi(t)}$',fontsize=lamomfsize)
+
+    
+    ax1.set_yticks(np.arange(0,0.5+.125,.125)*2*np.pi)
+    x_label = [r"$0$", r"$\pi/4$", r"$\pi/2$", r"$3\pi/4$",   r"$\pi$"]
+    #x_label = [r"$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$", r"$\frac{3\pi}{4}$",   r"$\pi$"]
+    ax1.set_yticklabels(x_label, fontsize=lamomfsize)
+    padding = 0.1
+    ax1.set_ylim(-0.1,np.pi+0.1)
     #ax1.set_xlabel(r'$\bm{t}$',fontsize=20)
     #xtick_locs = np.arange(0,T+2000,2000,dtype='int') 
     #ytick_locs = np.arange(0,np.pi+0.5,0.5)
@@ -518,6 +546,11 @@ def lamom2_qp_fig(q0,q1,eps=default_eps_lamom,
 
     ax1.xaxis.set_major_locator(MultipleLocator(4000))
 
+    ax1.set_yticks(np.arange(0,0.5+.125,.125)*2*np.pi)
+    x_label = [r"$0$", r"$\pi/4$", r"$\pi/2$", r"$3\pi/4$",   r"$\pi$"]
+    #x_label = [r"$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$", r"$\frac{3\pi}{4}$",   r"$\pi$"]
+    ax1.set_yticklabels(x_label, fontsize=lamomfsize)
+    ax1.set_ylim(-0.1,np.pi+0.1)
     #xtick_locs = np.arange(0,T+2000,2000,dtype='int') 
     #ytick_locs = np.arange(0,np.pi+0.5,0.5)
     #plt.xticks(xtick_locs, [r"$\mathbf{%s}$" % x for x in xtick_locs])
@@ -619,6 +652,10 @@ def lamom2_s_fig(q0,q1,filenum,eps=default_eps_lamom,
 
     ax1 = plt.subplot(gs[:1,:])
     # bold tick labels
+
+    ax1.set_yticks(np.arange(0,0.5+.125,.125)*2*np.pi)
+    x_label = [r"$0$", r"$\pi/4$", r"$\pi/2$", r"$3\pi/4$",   r"$\pi$"]
+    ax1.set_yticklabels(x_label, fontsize=lamomfsize)
     
     #ytick_locs = np.arange(np.amin(phi_theory),np.amax(phi_theory),
     #                       (np.amax(phi_theory)-np.amin(phi_theory))/8.)
@@ -636,12 +673,12 @@ def lamom2_s_fig(q0,q1,filenum,eps=default_eps_lamom,
     if q0 == .9:
         ax1.set_ylabel(r'$\bm{\phi(t)}$',fontsize=lamomfsize)
 
-    ax1.yaxis.set_major_locator(MultipleLocator(0.4))
+    #ax1.yaxis.set_major_locator(MultipleLocator(0.4))
     # make plot fit window
     #ax1.set_ylim(np.amin(full_model),0.3)#np.amax(full_model))
     #ax1.set_xlim(dat[:,0][0],dat[:,0][-1])
     ax1.set_xlim(0,total)
-
+    ax1.set_ylim(-0.1,np.pi+0.1)
     # plot s param
     q = q0+(q1)*noisefile[3:]
     print 'mean =',np.mean(q),'for seed='+str(filenum)
@@ -709,6 +746,9 @@ def lo_inhom():
 
     ax1 = plt.subplot(gs[:1,:])
     # plot data+theory for eps=.025
+    ax1.plot([0,phi_full_025[-1,0]],[np.pi,np.pi],color='gray',lw=1.7)
+    ax1.plot([0,phi_full_025[-1,0]],[0,0],color='gray',lw=1.7)
+    ax1.plot([0,phi_full_025[-1,0]],[2*np.pi,2*np.pi],color='gray',lw=1.7)
     ax1.plot(phi_full_025[:,0],phi_full_025[:,1],lw=3,color="black")
     ax1.plot(phi_reduce_025[:,0],phi_reduce_025[:,1],lw=2,color="#3399ff",ls='dashdot',dashes=(10,1))
 
@@ -716,22 +756,28 @@ def lo_inhom():
     min1=np.amin(phi_full_025[:,1]);max1=np.amax(phi_full_025[:,1])
     padding1 = (max1-min1)/16.
     xtick_locs1 = np.arange(phi_full_025[0,0],phi_full_025[-1,0], 2000,dtype='int')
-    ytick_locs1 = np.arange(min1,max1,padding1*2)
+    #ytick_locs1 = np.arange(min1,max1,np.pi/2)#padding1*2)
+
+    ax1.set_yticks(np.arange(0,1+.25,.25)*2*np.pi)
+    x_label = [r"$0$", r"$\frac{\pi}{2}$", r"$\pi$", r"$\frac{3\pi}{2}$",   r"$2\pi$"]
+    ax1.set_yticklabels(x_label, fontsize=20)
+
     plt.xticks(xtick_locs1, [r"$\mathbf{%s}$" % x for x in xtick_locs1])
-    plt.yticks(ytick_locs1, [r"$\mathbf{%1.1f}$" % x for x in ytick_locs1])
+    #plt.yticks(ytick_locs1, [r"$\mathbf{%1.1f}$" % x for x in ytick_locs1])
 
     # make plot fit window
     ax1.set_ylim(min1-padding1,max1+padding1)#np.amax(full_model))
     
-
     # axis labels
     ax1.set_ylabel(r'$\bm{\phi(t)}$',fontsize=20)
     ax1.set_xlabel(r'$\bm{t}$',fontsize=20)
 
-
     ax2 = plt.subplot(gs[1,:])
 
     # plot data+theory for eps=.0025
+    ax2.plot([0,phi_full_0025[-1,0]],[np.pi,np.pi],color='gray',lw=1.7)
+    ax2.plot([0,phi_full_0025[-1,0]],[0,0],color='gray',lw=1.7)
+    ax2.plot([0,phi_full_0025[-1,0]],[2*np.pi,2*np.pi],color='gray',lw=1.7)
     ax2.plot(phi_full_0025[:,0],phi_full_0025[:,1],lw=3,color="black")
     ax2.plot(phi_reduce_0025[:,0],phi_reduce_0025[:,1],lw=2,color="#3399ff",ls='dashdot',dashes=(10,2))
         
@@ -739,9 +785,14 @@ def lo_inhom():
     min2=np.amin(phi_full_0025[:,1]);max2=np.amax(phi_full_0025[:,1])
     padding2 = (max2-min2)/16.
     xtick_locs2 = np.arange(phi_full_0025[0,0],phi_full_0025[-1,0], 20000,dtype='int')
-    ytick_locs2 = np.arange(min2,max2,2*padding2)
+    #ytick_locs2 = np.arange(min2,max2,2*padding2)
+
+    ax2.set_yticks(np.arange(0,1+.25,.25)*2*np.pi)
+    x_label = [r"$0$", r"$\frac{\pi}{2}$", r"$\pi$", r"$\frac{3\pi}{2}$",   r"$2\pi$"]
+    ax2.set_yticklabels(x_label, fontsize=20)
+
     plt.xticks(xtick_locs2, [r"$\mathbf{%s}$" % x for x in xtick_locs2])
-    plt.yticks(ytick_locs2, [r"$\mathbf{%1.1f}$" % x for x in ytick_locs2])
+    #plt.yticks(ytick_locs2, [r"$\mathbf{%1.1f}$" % x for x in ytick_locs2])
     
     # make plot fit window
     ax2.set_ylim(min2-padding2,max2+padding2)#np.amax(full_model))
@@ -1222,21 +1273,21 @@ def generate_figure(function, args, filenames, title="", title_pos=(0.5,0.95)):
 def main():
     
     figures = [
-        (trb2newpar_p_fig, [.175,.3,default_eps,default_f,'p'], ['trb2newpar_p.png']),
-        (trb2_p_fig, [], ['trb2_p_fig.png']),
-        (trb2_qp_fig, [], ['trb2_qp_fig.png']),
-        (trb2_s_fig, [], ['trb2_s4_fig.png']),
-        (lamom2_p_fig, [0.9,1.], ['lamom2_p_fig1.pdf']),
-        (lamom2_p_fig, [1.1,1.], ['lamom2_p_fig2.pdf']),
-        (lamom2_qp_fig, [0.9,1.], ['lamom2_qp_fig1.pdf']),
-        (lamom2_qp_fig, [1.1,1.], ['lamom2_qp_fig2.pdf']),
-        (lamom2_s_fig, [0.9,1.,1], ['lamom2_s1_fig1.pdf']),
-        (lamom2_s_fig, [0.85,1.,2], ['lamom2_s2_fig1.pdf']),
+        #(trb2newpar_p_fig, [.175,.3,default_eps,default_f,'p'], ['trb2newpar_p.png']),
+        #(trb2_p_fig, [], ['trb2_p_fig.png']),
+        #(trb2_qp_fig, [], ['trb2_qp_fig.png']),
+        #(trb2_s_fig, [], ['trb2_s4_fig.png']),
+        #(lamom2_p_fig, [0.9,1.], ['lamom2_p_fig1.pdf','lamom2_p_fig1.eps']),
+        #(lamom2_p_fig, [1.1,1.], ['lamom2_p_fig2.pdf','lamom2_p_fig2.eps']),
+        #(lamom2_qp_fig, [0.9,1.], ['lamom2_qp_fig1.pdf','lamom2_qp_fig1.eps']),
+        #(lamom2_qp_fig, [1.1,1.], ['lamom2_qp_fig2.pdf','lamom2_qp_fig2.eps']),
+        #(lamom2_s_fig, [0.9,1.,1], ['lamom2_s1_fig1.pdf','lamom2_s1_fig1.eps']),
+        #(lamom2_s_fig, [0.85,1.,2], ['lamom2_s2_fig1.pdf','lamom2_s2_fig1.eps']),
         (lo_inhom,[],['lo-inhom.pdf']),
-        (trb2_prc_hodd,[],['trb2_prc_hodd.pdf']),
-        (trb50_specgram,[],['trb50_specgram.pdf']),
-        (trb50_op,[],['trb50_op.pdf']),
-        (trb50_specgram_op,[],['network3_ymp.pdf']),
+        #(trb2_prc_hodd,[],['trb2_prc_hodd.pdf']),
+        #(trb50_specgram,[],['trb50_specgram.pdf']),
+        #(trb50_op,[],['trb50_op.pdf']),
+        #(trb50_specgram_op,[],['network3_ymp.pdf']),
         #(fd_diagram,[],['fd_diagram.pdf','fd_diagram.eps']),
         ]
     for fig in figures:
