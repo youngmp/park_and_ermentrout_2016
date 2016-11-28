@@ -43,8 +43,10 @@ dist2_[0..303]=if(gm<.175)then((vp-vdetLo([j]))^2/svl+(np-ndetLo([j]))^2/snl)els
 special mn1=findext(-1,304,1,dist1_0)
 special mn2=findext(-1,304,1,dist2_0)
 
-aux psi=mod(mn2(3)/303-mn1(3)/303+.5,1)-.5
+#aux psi=mod(mn2(3)/303-mn1(3)/303+.5,1)-.5
+aux psi=mod(mn2(3)/303-mn1(3)/303,1)
 aux theta1=mod(mn1(3)/303,1)
+aux theta2=mod(mn2(3)/303,1)
 
 #dist1Hi_[0..373]=if(gm>=.175)then((v-vdetHi([j]))^2+(n-ndetHi([j]))^2)else(0)
 #dist2Hi_[0..373]=if(gm>=.175)then((vp-vdetHi([j]))^2+(np-ndetHi([j]))^2)else(0)
