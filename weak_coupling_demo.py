@@ -1,4 +1,6 @@
 # generate long movie of weakly coupled traub models
+# by default, the data files correspond to figure 8 of the paper.
+# starttime sets the time at which you start saving frames.
 
 import numpy as np
 
@@ -23,7 +25,10 @@ lamomfsize=15 #lambda omega figure size
 import euler
 import phase_model
 
-movdir = 'mov/'
+
+
+movdir = 'mov/' # save frames to this dir
+starttime = 7666 # starting time in ms
 
 ### DATA
 
@@ -121,7 +126,7 @@ maxvalp = np.amax(gm)+.05
 ax21b.set_ylim(minvalp,maxvalp)
 
 counter=1
-j=int(7722/dt)
+j=int(starttime/dt)
 while j < len(t):
     #fig.figsize=(5,5)
 
