@@ -2,6 +2,9 @@
 # by default, the data files correspond to figure 8 of the paper.
 # starttime sets the time at which you start saving frames.
 
+# avconv -r 10 -start_number 1 -i test%d.jpg -b:v 1000k test.mp4
+
+
 import numpy as np
 
 import matplotlib
@@ -14,7 +17,8 @@ rc('font', family='serif', serif=['Computer Modern Roman'])
 
 #matplotlib.rcParams['text.latex.preamble']=[r"\usepackage{amsmath}"]
 #matplotlib.rcParams['text.latex.preamble']=[r"\usepackage{bm}"]
-matplotlib.rcParams['text.latex.preamble'] = [r'\boldmath \usepackage{bm}']
+
+matplotlib.rcParams['text.latex.preamble'] = [r'\boldmath \usepackage{bm} \usepackage{xcolor} \definecolor{blue1}{HTML}{3399FF}']
 matplotlib.rcParams.update({'figure.autolayout': True})
 
 sizeOfFont = 20
@@ -28,7 +32,12 @@ import phase_model
 
 
 movdir = 'mov/' # save frames to this dir
-starttime = 7666 # starting time in ms
+#starttime = 7666 # starting time in ms
+#endtime = 7966 # starting time in ms
+starttime = 9500
+endtime = 9800
+
+# other start time at 9500 and end at 9800.
 
 ### DATA
 
@@ -81,139 +90,97 @@ sol = euler.ESolve(phase_model.happrox_newpar,psi0,t,args=(gm0,gm1,f,eps,partype
 slow_phs_model = np.abs(np.mod(sol+.5,1)-.5)[:,0]
 
 
-
-fig = plt.figure(figsize=(7,7))
-
-plt.ion()
-#plt.show()
-
-
-ax11 = plt.subplot2grid((2,2),(0,0))
-ax11.set_title(r"\textbf{Oscillator 1}")
-ax11.set_xlabel(r"\textbf{Voltage (mV)}",fontsize=15)
-ax11.set_ylabel(r"$\mathbf{n}$",fontsize=15)
-#ax11.plot(vlo,nlo)
-
-ax12 = plt.subplot2grid((2,2),(0,1))
-ax12.set_title(r"\textbf{Oscillator 2}")
-ax12.set_xlabel(r"\textbf{Voltage (mV)}",fontsize=15)
-ax12.set_ylabel(r"$\mathbf{n}$",fontsize=15)
-#ax12.plot(vhi,nhi)
-
-
-ax21 = plt.subplot2grid((2,2),(1,0),colspan=2)
-ax21.set_title(r"\textbf{Phase Difference + Slow Parameter}")
-ax21.set_xlabel(r"\textbf{Time (ms)}",fontsize=15)
-ax21.set_ylabel(r"$\mathbf{\phi}$",fontsize=15)
-ax21.set_xlim(t[0],t[-1])
-
 minval = np.amin(dat[:,1])*2*np.pi-.05
 maxval = np.amax(dat[:,1])*2*np.pi+.05
-ax21.set_ylim(minval,maxval)
 
-ax21.set_yticks(np.arange(0,0.5+.125,.125)*2*np.pi)
-x_label = [r"$0$", r"$\pi/4$", r"$\pi/2$", r"$3\pi/4$", r"$\pi"]
-    #x_label = [r"$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$", r"$\frac{3\pi}{4}$",   r"$\pi$"]
-ax21.set_yticklabels(x_label, fontsize=15)
-
-
-ax21b = ax21.twinx()
-ax21b.set_ylabel(r'$\bm{q(t)}$',fontsize=15,color='red')
-ax21b.set_xlim(t[0],t[-1])
-ax21b.set_ylim(minval,maxval)
 minvalp = np.amin(gm)-.05
 maxvalp = np.amax(gm)+.05
-ax21b.set_ylim(minvalp,maxvalp)
+
+x_label = [r"$0$", r"$\pi/4$", r"$\pi/2$", r"$3\pi/4$", r"$\pi"]
 
 counter=1
 j=int(starttime/dt)
-while j < len(t):
-    #fig.figsize=(5,5)
+nfinal = int(endtime/dt)
 
-    """
-    if (t[j] >= 0) and (t[j]<= 10):
-        j += 1
-    elif (t[j] >= 2000) and (t[j] <= 2010):
-        j += 1
-    else:
-        j += 500
-    """
-    j += 1
+skipn = 2
+skipn2 = 1000
+
+while j < int(starttime/dt)+1400:
+
+    fig = plt.figure(figsize=(7,7))
+
+    ax11 = plt.subplot2grid((2,2),(0,0))
+    ax12 = plt.subplot2grid((2,2),(0,1))
+    ax21 = plt.subplot2grid((2,2),(1,0),colspan=2)
+    ax21b = ax21.twinx()
+
+    ax11.set_title(r"\textbf{Oscillator 1}")
+    ax12.set_title(r"\textbf{Oscillator 2}")
+    ax21.set_title(r"\textbf{Phase Difference and Slow Parameter}")
+
+    ax11.set_xlabel(r"\textbf{Voltage (mV)}",fontsize=15)
+    ax12.set_xlabel(r"\textbf{Voltage (mV)}",fontsize=15)
+    ax21.set_xlabel(r"\textbf{Time (ms)}",fontsize=15)
+
+    ax11.set_ylabel(r"$\mathbf{n}$",fontsize=15)
+    ax12.set_ylabel(r"$\mathbf{n}$",fontsize=15)
+    ax21.set_ylabel(r"$\mathbf{\phi}$",fontsize=15)
+    ax21b.set_ylabel(r'$\bm{q(t)}$',fontsize=15,color='red')
+
+    ax11.set_xlim(vmin,vmax)
+    ax12.set_xlim(vmin,vmax)
+    ax21.set_xlim(t[0],t[-1])
+    ax21b.set_xlim(t[0],t[-1])
+
+    ax11.set_ylim(nmin,nmax)
+    ax12.set_ylim(nmin,nmax)
+    ax21.set_ylim(minval,maxval)
+    ax21b.set_ylim(minvalp,maxvalp)
+
+    ax21.set_yticks(np.arange(0,0.5+.125,.125)*2*np.pi)
+    ax21.set_yticklabels(x_label, fontsize=15)
+
+
+    plt.locator_params(nticks=4)
+    ax11.xaxis.set_ticks(np.arange(-80,80,40)) # fix x label spacing
+    ax12.xaxis.set_ticks(np.arange(-80,80,40))
+
+
+    j += skipn
     k = j
     #g1.matshow(np.reshape(sol[k,:N],(rN,rN)))
 
-    # oscillator 1
-    ax11.set_title(r"\textbf{Oscillator 1}")
-    ax11.set_xlabel(r"\textbf{Voltage (mV)}",fontsize=15)
-    ax11.set_ylabel(r"$\mathbf{n}$",fontsize=15)
-    ax11.scatter(vdat[k,1],ndat[k,1],color='red',s=20)
-    
-    ax11.plot(vlo,nlo,lw=2)
-    #print 'test1'
-    ax11.text(-80,0.35,r"\textbf{Approx. phase=}")
+    # oscillators 1,2
+    ax11.scatter(vdat[k,1],ndat[k,1],color='red',s=50)
+    ax12.scatter(vpdat[k,1],npdat[k,1],color='red',s=50)
+
+    ax11.plot(vlo,nlo,lw=2) # lookup tables
+    ax12.plot(vlo,nlo,lw=2)
+
+    ax11.text(-80,0.35,r"\textbf{Approx. phase=}") # real time phase
     ax11.text(-80,0.3,r"$\quad$\textbf{"+str(theta1[j,1])+r"*2pi}")
 
-    #print 'test2'
-    ax11.set_xlim(vmin,vmax)
-    ax11.set_ylim(nmin,nmax)
-
-
-    # oscillator 2
-    ax12.set_title(r"\textbf{Oscillator 2}")
-    ax12.set_xlabel(r"\textbf{Voltage (mV)}",fontsize=15)
-    ax12.set_ylabel(r"$\mathbf{n}$",fontsize=15)
-    ax12.scatter(vpdat[k,1],npdat[k,1],color='red',s=20)
-
-    ax12.plot(vlo,nlo,lw=2)
     ax12.text(-80,0.35,r"\textbf{Approx. phase=}")
     ax12.text(-80,0.3,r"$\quad$\textbf{"+str(theta2[j,1])+r"*2pi}")
 
-    #ax12.text(-80,0.35,r"\textbf{Approx. phase=\n"+str(theta2[j,1])+r"*2pi}")
-
-    ax12.set_xlim(vmin,vmax)
-    ax12.set_ylim(nmin,nmax)
-
 
     # phase diff full + theory + param
-    ax21.plot(t[:k],dat[:k,1]*2*np.pi,color='black')
-
+    ax21.plot(t[:k][::skipn],dat[:k,1][::skipn]*2*np.pi,color='black',lw=2,label='Numerics')
     N = len(slow_phs_model)
+    ax21.plot(np.linspace(0,dat[:,0][-1],N)[:k][::skipn2],slow_phs_model[:k][::skipn2]*2*np.pi,lw=5,color="#3399ff",label='Theory')
 
-    ax21.plot(np.linspace(0,dat[:,0][-1],N)[:k],slow_phs_model[:k]*2*np.pi,lw=5,color="#3399ff")
+    ax21b.plot(t[:k][::skipn2],gm[:k][::skipn2],color='red',lw=2,label='Parameter')
 
-    #ax21.set_title(r"\textbf{Phase Difference ("+str(abs(theta2[j,1]-theta1[j,1]))+"*2$\pi$) + Slow Parameter}")
-    ax21.set_title(r"\textbf{Phase Difference + Slow Parameter}")
-    ax21.set_xlabel(r"\textbf{Time (ms)}",fontsize=15)
-    ax21.set_ylabel(r"$\mathbf{\phi}$",fontsize=15)
-
-    ax21.set_xlim(t[0],t[-1])
-    ax21.set_ylim(minval,maxval)
-
-    ax21.set_yticks(np.arange(0,0.5+.125,.125)*2*np.pi)
-    x_label = [r"$0$", r"$\pi/4$", r"$\pi/2$", r"$3\pi/4$", r"$\pi"]
-    #x_label = [r"$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$", r"$\frac{3\pi}{4}$",   r"$\pi$"]
-    ax21.set_yticklabels(x_label,fontsize=15)
-
-
-
-    ax21b.plot(t[:k],gm[:k],color='red',lw=2)
-    ax21b.set_xlim(t[0],t[-1])
-
-
-    ax21b.set_ylim(minvalp,maxvalp)
-    ax21b.set_ylabel(r'$\bm{q(t)}$',fontsize=15,color='red')
+    ax21.legend()
     
-    
-    fig.savefig(movdir+str(counter)+".jpg",dpi=80)
+    fig.savefig(movdir+str(counter)+".png",dpi=80)
     
     #plt.pause(.01)
     print t[k],k,counter
 
-    ax11.clear()
-    ax12.clear()
-    ax21.clear()
-    ax21b.clear()
 
+    plt.cla()
+    plt.close()
 
     counter += 1
 

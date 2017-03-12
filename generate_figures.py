@@ -1283,7 +1283,7 @@ def main():
         #(lamom2_qp_fig, [1.1,1.], ['lamom2_qp_fig2.pdf','lamom2_qp_fig2.eps']),
         #(lamom2_s_fig, [0.9,1.,1], ['lamom2_s1_fig1.pdf','lamom2_s1_fig1.eps']),
         #(lamom2_s_fig, [0.85,1.,2], ['lamom2_s2_fig1.pdf','lamom2_s2_fig1.eps']),
-        (lo_inhom,[],['lo-inhom.pdf']),
+        #(lo_inhom,[],['lo-inhom.pdf']),
         #(trb2_prc_hodd,[],['trb2_prc_hodd.pdf']),
         #(trb50_specgram,[],['trb50_specgram.pdf']),
         #(trb50_op,[],['trb50_op.pdf']),
